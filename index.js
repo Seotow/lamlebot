@@ -12,10 +12,7 @@ const client = new Client({
 const express = require('express');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Our app is running on port ${ PORT }`);
-});
+app.listen(process.env.PORT || 5000);
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
