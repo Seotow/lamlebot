@@ -26,9 +26,9 @@ module.exports = {
         }
 
         if(string.startsWith('https://')){
-            const url = string;
             try {
-                const stream = ytdl(url, { filter: 'audioonly' });
+                const stream = ytdl(string, { filter: 'audioonly' });
+                resource = createAudioResource(stream);
                 player.play(resource);
                 connection.subscribe(player);
             } catch(err) {
