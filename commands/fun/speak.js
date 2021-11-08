@@ -5,19 +5,30 @@ module.exports = {
     run: async (client, message, args) => {
         const { getAudioUrl, getAllAudioUrls } = require('google-tts-api');
         const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus} = require('@discordjs/voice');
-        const ytdl = require('ytdl-core');
 
         const author = message.author.username;
         const string = args.join(' ');
+
         const channel = message.member.voice.channel;
+        const player = createAudioPlayer();
+        
+        const audioUrl = getAudioUrl(string, {
+            lang: 'vi',
+            slow: false,
+            host: 'https://translate.google.com',
+            timeout: 10000,
+        });
+        const resource = createAudioResource(audioUrl);
+        
         const connection = joinVoiceChannel({
             channelId: channel.id,
             guildId: channel.guild.id,
             adapterCreator: channel.guild.voiceAdapterCreator
         });
-        
-        const player = createAudioPlayer();
-        let audioUrl, resource;
+
+        if (!channel) return message.reply({ 
+            content: `Djt me ${author} đéo vào voice thì bố tìm kiểu gì`
+        })
 
         if(!string) {
             return message.reply({ 
@@ -25,28 +36,7 @@ module.exports = {
             })
         }
 
-        if(string.startsWith('https://')){
-            try {
-                const stream = ytdl(string, { filter: 'audioonly' });
-                resource = createAudioResource(stream);
-                player.play(resource);
-                connection.subscribe(player);
-            } catch(err) {
-                return message.reply({ 
-                    content: `Djt me ${author} nhập sai link rồi`
-                })
-            }
-        } else if(string.length < 200) {
-            audioUrl = getAudioUrl(string, {
-                lang: 'vi',
-                slow: false,
-                host: 'https://translate.google.com',
-                timeout: 10000,
-            });
-            resource = createAudioResource(audioUrl);
-            player.play(resource);
-            connection.subscribe(player);
-        } else if (string.length >= 200) {
+        if (string.length >= 200) {
             // audioUrl = getAllAudioUrls(string, {
             //     lang: 'vi',
             //     slow: false,
@@ -68,9 +58,8 @@ module.exports = {
 
         } 
 
-        if (!channel) return message.reply({ 
-            content: `Djt me ${author} đéo vào voice thì bố tìm kiểu gì`
-        })
+        player.play(resource);
+        connection.subscribe(player);
 
         player.on(AudioPlayerStatus.Idle, () => {
             const timeOutId = setTimeout(() => {
