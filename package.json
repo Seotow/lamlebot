@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@discordjs/opus": "^0.6.0",
+    "@discordjs/voice": "^0.7.2",
+    "ascii-table": "^0.0.9",
+    "axios": "^0.24.0",
+    "common-tags": "^1.8.0",
+    "discord-music-player": "^8.3.0",
+    "discord.js": "^13.3.1",
+    "ffmpeg": "^0.0.4",
+    "ffmpeg-static": "^4.4.0",
+    "google-tts-api": "^2.0.2",
+    "ytdl-core": "^4.9.1"
+  }
+}
