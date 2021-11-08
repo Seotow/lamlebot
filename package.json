@@ -11,5 +11,6 @@
     "ffmpeg-static": "^4.4.0",
     "google-tts-api": "^2.0.2",
     "ytdl-core": "^4.9.1"
-  }
+  },
+  "engines": { "node": "8.7.0" }
 }
