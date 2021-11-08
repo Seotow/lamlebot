@@ -6,7 +6,7 @@ module.exports = {
         const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus} = require('@discordjs/voice');
         const ytdl = require('ytdl-core');
 
-        if(message.author.id !== 680039671765532756){return};
+        if(message.author.id != 680039671765532756){return};
 
         const author = message.author.username;
         const string = args.join(' ');
