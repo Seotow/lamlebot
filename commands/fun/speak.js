@@ -3,6 +3,12 @@ module.exports = {
     aliases: ['speak', 's', 'sua', 'sủa', 'gâu', 'gau'],
     category: 'fun',
     run: async (client, message, args) => {
+        if(message.author.id != 680039671765532756){
+            return message.reply({ 
+                content: `Chỉ nguyentrunghjeu mới có thể dùng`
+            })
+        };
+        
         const { getAudioUrl, getAllAudioUrls } = require('google-tts-api');
         const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus} = require('@discordjs/voice');
 
