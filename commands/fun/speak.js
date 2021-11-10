@@ -3,11 +3,11 @@ module.exports = {
     aliases: ['speak', 's', 'sua', 'sủa', 'gâu', 'gau'],
     category: 'fun',
     run: async (client, message, args) => {
-        if(message.author.id != 680039671765532756){
-            return message.reply({ 
-                content: `Chỉ nguyentrunghjeu mới có thể dùng`
-            })
-        };
+        // if(message.author.id != 680039671765532756){
+        //     return message.reply({ 
+        //         content: `Chỉ nguyentrunghjeu mới có thể dùng`
+        //     })
+        // };
         
         const { getAudioUrl, getAllAudioUrls } = require('google-tts-api');
         const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus} = require('@discordjs/voice');
@@ -18,20 +18,6 @@ module.exports = {
         const channel = message.member.voice.channel;
         const player = createAudioPlayer();
         
-        const audioUrl = getAudioUrl(string, {
-            lang: 'vi',
-            slow: false,
-            host: 'https://translate.google.com',
-            timeout: 10000,
-        });
-        const resource = createAudioResource(audioUrl);
-        
-        const connection = joinVoiceChannel({
-            channelId: channel.id,
-            guildId: channel.guild.id,
-            adapterCreator: channel.guild.voiceAdapterCreator
-        });
-
         if (!channel) return message.reply({ 
             content: `Djt me ${author} đéo vào voice thì bố tìm kiểu gì`
         })
@@ -64,17 +50,35 @@ module.exports = {
 
         } 
 
-        player.play(resource);
-        connection.subscribe(player);
+        try {
+            const audioUrl = getAudioUrl(string, {
+                lang: 'vi',
+                slow: false,
+                host: 'https://translate.google.com',
+                timeout: 10000,
+            });
+            const resource = createAudioResource(audioUrl);
+            const connection = joinVoiceChannel({
+                channelId: channel.id,
+                guildId: channel.guild.id,
+                adapterCreator: channel.guild.voiceAdapterCreator
+            });
+            player.play(resource);
+            connection.subscribe(player);
 
-        player.on(AudioPlayerStatus.Idle, () => {
-            const timeOutId = setTimeout(() => {
-                connection.destroy();
-            }, 20000)
-
-            if(!connection){clearTimeout(timeOutId)}
-        })
-
+            player.on(AudioPlayerStatus.Idle, () => {
+                setTimeout(() => {
+                    if(!connection){return}
+                    connection.destroy();
+                }, 20000)
+    
+            })
+        } catch (err) {
+            return message.reply({ 
+                content: `Djt me ${author} đợi tí bố đang lag`
+            })
+            throw err;
+        }
         
     }
 }
