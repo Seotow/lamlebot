@@ -33,7 +33,6 @@ module.exports = {
         })
 
         const player = createAudioPlayer();
-        const resource = createAudioResource(stream);
         
         try {
             const stream = ytdl(string, { filter: 'audioonly' });
@@ -42,6 +41,7 @@ module.exports = {
                 guildId: channel.guild.id,
                 adapterCreator: channel.guild.voiceAdapterCreator
             });
+            const resource = createAudioResource(stream);
 
             player.play(resource);
             connection.subscribe(player);
