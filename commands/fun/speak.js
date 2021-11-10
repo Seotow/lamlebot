@@ -68,7 +68,7 @@ module.exports = {
 
             player.on(AudioPlayerStatus.Idle, () => {
                 setTimeout(() => {
-                    if(!connection){return}
+                    if(!connection || player.play(resource) || connection.subscribe(player)){return}
                     connection.destroy();
                 }, 20000)
     
