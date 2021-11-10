@@ -43,7 +43,7 @@ client.on("messageCreate", (message) => {
     if(!command) command = client.commands.get(client.aliases.get(cmd));
     if(command) command.run(client, message, args)
 
-    
+    console.log(message)
 });
 
 ['command'].forEach(handler => {
