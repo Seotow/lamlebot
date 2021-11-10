@@ -28,15 +28,17 @@ module.exports = {
         try {
             drive.files.list({
                 folderId: process.env.DRIVE_DIR,
-                q: "mimeType contains 'image' and trashed = false"
+                q: "mimeType contains 'image' and trashed = false",
+                pageSize: 1000
                 }, (error, response) => {
                     if (error) {
                         return console.log("ERROR", error);
                     }
                     const list = response;
-
+                    
                     if (!!list.data.files.length) {
                         const index = Math.floor(Math.random() * (list.data.files.length - 1));
+                        console.log(list.data.files.length, index);
                         const fID = list.data.files[index].id;
                         const mimeType = list.data.files[index].mimeType;
 
@@ -47,7 +49,7 @@ module.exports = {
                             },
                             { responseType: "stream" },
                             (err, res) => {
-                                const fileName = fID + "." + mimeType.split("/")[1];
+                                const fileName = `${fID}.${mimeType.split("/")[1]}`;
                                 const file = fs.createWriteStream(fileName);
                                 res.data
                                     .on('end', () => {
@@ -57,7 +59,11 @@ module.exports = {
                                         )
                                         .then(() => {
                                             file.end()
-                                            fs.unlinkSync(fileName)
+                                            try {
+                                                fs.unlinkSync(fileName)
+                                            } catch (error) {
+                                                throw error
+                                            }
                                         })
 
                                     })
@@ -72,7 +78,6 @@ module.exports = {
                     }
                 })
         } catch (error) {
-            console.log(error)
             message.reply(randomArrElement(errors) + " Error: " + error.message)
         }
 

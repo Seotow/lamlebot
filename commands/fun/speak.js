@@ -68,7 +68,7 @@ module.exports = {
 
             player.on(AudioPlayerStatus.Idle, () => {
                 setTimeout(() => {
-                    if(!connection || player.play(resource) || connection.subscribe(player)){return}
+                    if(!connection){return}
                     connection.destroy();
                 }, 20000)
     
@@ -77,7 +77,7 @@ module.exports = {
             return message.reply({ 
                 content: `Djt me ${author} đợi tí bố đang lag`
             })
-            throw err;
+            // throw err;
         }
         
     }
