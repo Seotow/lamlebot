@@ -14,6 +14,7 @@ module.exports = {
 
         const author = message.author.username;
         const string = args.join(' ');
+        const channel = message.member.voice.channel;
           
         if(!string) {
             return message.reply({ 
@@ -21,35 +22,43 @@ module.exports = {
             })
         }
         
-        if(!string.startsWith('https://')){return}
-        const stream = ytdl(string, { filter: 'audioonly' });
-
-        const channel = message.member.voice.channel;
+        if(!string.startsWith('https://')){
+            return message.reply({ 
+                content: `Djt me ${author} link kiểu cc gì đấy`
+            })
+        }
         
-        const player = createAudioPlayer();
-        const resource = createAudioResource(stream);
-
-        const connection = joinVoiceChannel({
-            channelId: channel.id,
-            guildId: channel.guild.id,
-            adapterCreator: channel.guild.voiceAdapterCreator
-        });
-
-        player.play(resource);
-        connection.subscribe(player);
-
         if (!channel) return message.reply({ 
             content: `Djt me ${author} đéo vào voice thì bố tìm kiểu gì`
         })
 
-        player.on(AudioPlayerStatus.Idle, () => {
-            const timeOutId = setTimeout(() => {
-                connection.destroy();
-            }, 20000)
+        const player = createAudioPlayer();
+        const resource = createAudioResource(stream);
+        
+        try {
+            const stream = ytdl(string, { filter: 'audioonly' });
+            const connection = joinVoiceChannel({
+                channelId: channel.id,
+                guildId: channel.guild.id,
+                adapterCreator: channel.guild.voiceAdapterCreator
+            });
 
-            if(!connection){clearTimeout(timeOutId)}
-        })
+            player.play(resource);
+            connection.subscribe(player);
 
+            player.on(AudioPlayerStatus.Idle, () => {
+                setTimeout(() => {
+                    if(!connection){return}
+                    message.channel.send('Đã rời phòng vì không hoạt động')
+                    connection.destroy();
+                }, 30000)
+    
+            })
+        } catch (e) {
+            return message.reply({ 
+                content: `Djt me ${author} đợi tí bố đang lag`
+            })
+        }
         
     }
 }
