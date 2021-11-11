@@ -70,7 +70,7 @@ module.exports = {
                 setTimeout(() => {
                     if(!connection){return}
                     connection.destroy();
-                }, 20000)
+                }, 40000)
     
             })
         } catch (err) {
