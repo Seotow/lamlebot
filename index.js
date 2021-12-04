@@ -65,9 +65,9 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 })
 
 client.on("messageCreate", (message) => {
-    if(message.author.id == '543777202483757066' || message.author.id == '399537178381778945' || message.author.id == '906118122723999746') {
-        message.delete({timeout: 1000});
-    }
+    // if(message.author.id == '543777202483757066' || message.author.id == '399537178381778945' || message.author.id == '906118122723999746') {
+    //     message.delete({timeout: 1000});
+    // }
 
     if(message.author.bot) {return};
     if(!message.guild) {return};
