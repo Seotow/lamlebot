@@ -16,6 +16,7 @@ module.exports = {
         const string = args.join(' ');
 
         const channel = message.member.voice.channel;
+        console.log(channel);
         const player = createAudioPlayer();
         
         if (!channel) return message.reply({ 
