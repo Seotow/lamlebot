@@ -32,6 +32,7 @@ client.aliases = new Collection();
 
 
 client.on('voiceStateUpdate', (oldState, newState) => {
+    return 
     // console.log(newState.channelId);
     // console.log(oldState);
     // 543777202483757066 id việt anh
