@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const { google } = require('googleapis');
 const errors = require('../../errors.json');
-const driveToken = require('../../config.json');
+const driveToken = require('../../drive.json');
 const credentials = require('../../credentials.json');
 require("dotenv").config();
 
