@@ -67,13 +67,13 @@ module.exports = {
             player.play(resource);
             connection.subscribe(player);
 
-            player.on(AudioPlayerStatus.Idle, () => {
-                setTimeout(() => {
-                    if(!connection){return}
-                    connection.destroy();
-                }, 40000)
+            // player.on(AudioPlayerStatus.Idle, () => {
+            //     setTimeout(() => {
+            //         if(!connection){return}
+            //         connection.destroy();
+            //     }, 40000)
     
-            })
+            // })
         } catch (err) {
             return message.reply({ 
                 content: `Djt me ${author} đợi tí bố đang lag`
