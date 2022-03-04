@@ -5,7 +5,7 @@ module.exports = {
     category: 'fun',
     run: async (client, message, args) => {
         // var reactions = args[0].toLowerCase().split('');
-        message.delete()
+        setTimeout(() => {message.delete()}, 1000)
         let msgId = args[0];
         let reactions = [
             'letter_d',
