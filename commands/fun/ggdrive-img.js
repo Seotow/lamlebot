@@ -67,7 +67,7 @@ module.exports = {
                                         })
 
                                     })
-                                    .on("error", error => message.reply(randomArrElement(errors) + " Error: " + error.message))
+                                    .on("error", error => message.reply(randomArrElement(errors) + " Lỗi: " + error.message))
                                     .pipe(file)
                             }
                         );
@@ -78,7 +78,7 @@ module.exports = {
                     }
                 })
         } catch (error) {
-            message.reply(randomArrElement(errors) + " Error: " + error.message)
+            message.reply(randomArrElement(errors) + " Lỗi: " + error.message)
         }
 
     }
