@@ -10,10 +10,9 @@ const client = new Client({
 
     ] 
 });
-const express = require('express');
 
-const app = express();
-app.listen(process.env.PORT || 5000);
+require('./server.js')
+
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
